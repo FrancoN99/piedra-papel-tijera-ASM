@@ -1,0 +1,10 @@
+# Ignorar todo...
+*
+
+# ...excepto los archivos del proyecto
+!.gitignore
+!README.md
+!build.bat
+!ppt.asm
+!pptlib.asm
+!mint.asm
