@@ -1,18 +1,44 @@
-# assembly-pacman
-A pacman game I made in 16 bit 80x86 assembly
+# Piedra, Papel o Tijera (ASM 8086)
 
-I'm putting this here just in case anyone is interested in looking at something like this.
+Proyecto final de la materia SPD - UNSAM.
 
-To compile and link, make sure you have the turbo assembler tools, TASM and TLINK.
-Open DOSBOX and navigate to the directory where PROJF.ASM and the rest of the files are at.
-To compile:
-```bash
-tasm projf.asm
+Juego de piedra, papel o tijera en ensamblador 8086 para DOS/DOSBox.
+
+> Estado: en desarrollo
+
+## Estructura
+
+- `ppt.asm`: programa principal (`.model small`, genera `ppt.exe`)
+- `pptlib.asm`: librería de rutinas, se enlaza con `ppt`
+- `mint.asm`: interrupción propia residente (`.model tiny`, genera `mint.com`)
+- `build.bat`: compila todo
+
+## Compilar
+
 ```
-To then link:
-```bash
-tlink projf.obj
+build
 ```
 
-If you want to add debugging options add the /zi flag to tasm and /v to tlink.
-Enjoy!
+o a mano:
+
+```
+tasm mint.asm
+tlink /t mint.obj
+
+tasm ppt.asm
+tasm pptlib.asm
+tlink ppt.obj pptlib.obj
+```
+
+## Ejecutar
+
+```
+mint.com
+ppt.exe
+```
+
+`mint.com` se ejecuta una sola vez por sesión de DOSBox.
+
+## Autores
+
+- Baigorria Aaron Damian, Benitez Mariano Gabriel, Navarro Franco Alejo
