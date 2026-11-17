@@ -54,7 +54,7 @@ vuelta:
     ;cmp al,"3"
     ;je instrucciones
 
-    jmp inicio
+    jmp vuelta
 
 piedra:
 	mov eleccion,0
