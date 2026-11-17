@@ -11,7 +11,7 @@
     cartel2 db "Presione 0 para piedra, 1 para papel, 2 para tijera o 3 para instrucciones", 0dh,0ah,24h
     mensajeEmpate db "Usted ha empatado", 0dh,0ah,24h
     mensajePierdePc1 db "Usted ha ganado! Llego a 3 puntos",0dh,0ah,24h
-    mensajeGanaPc1 db "Usted ha perdido! La Cpu llego a 3 Cpu",0dh,0ah,24h
+    mensajeGanaPc1 db "Usted ha perdido! La Cpu llego a 3 puntos",0dh,0ah,24h
     mensajePierdePc db "Usted ha ganado! Suma 1 punto",0dh,0ah,24h
     mensajeGanaPc db "Usted ha perdido! Suma un 1 punto la Cpu",0dh,0ah,24h
     eleccion db 0
