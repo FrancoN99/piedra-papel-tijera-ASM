@@ -22,6 +22,7 @@
 	public comparoPiedra
 	public comparoPapel
 	public comparoTijera
+	public saltito
 
 comparoPiedra proc
 	push bp
@@ -135,6 +136,21 @@ finTijera:
 
 comparoTijera endp
 
+saltito proc
+    push ax             
+    push dx
+
+    mov ah, 02h        
+    mov dl, 13         
+    int 21h
+
+    mov dl, 10          
+    int 21h
+
+    pop dx            
+    pop ax
+    ret                 
+saltito endp
 
 random proc
     push cx
