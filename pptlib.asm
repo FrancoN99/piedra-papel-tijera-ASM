@@ -2,139 +2,52 @@
 .model small
 .stack 100h
 
+JUMPS
 .data
-
 .code
-	
-	public cuentaCaracteres
-	public r2a
-	public cambio
-	public soloLetras
-	public carga
-	public incremento
-	public limpiaVar
-	public limpiaAscii
-	public cuentaIndividual
-	public cuentoLetras
-	public imprimir
-	public num2bin
-	public random
-	public comparoPiedra
-	public comparoPapel
-	public comparoTijera
-	public saltito
+        
+        public cuentaCaracteres
+        public r2a
+        public cambio
+        public soloLetras
+        public carga
+        public incremento
+        public limpiaVar
+        public limpiaAscii
+        public cuentaIndividual
+        public cuentoLetras
+        public imprimir
+        public num2bin
+        public random
+        public comparoPiedra
+        public comparoPapel
+        public comparoTijera
+        public saltito
+        public modoTexto
+        public posiciona
 
-comparoPiedra proc
-	push bp
-	mov bp,sp
-	push bx
-	mov bx, ss:[bp+4]; entra la eleccion del usuario
+modoTexto proc
+    push ax
+    mov ax, 0003h
+    int 10h
+    pop ax
+    ret
+modoTexto endp
 
-	cmp byte ptr[bx], al
-	je empate		
-								;0 piedra, 1 papel, 2 tijera
-	cmp byte ptr[bx], 1
-	je pierdePc
+; DH = fila, DL = columna (modo texto 80x25)
+posiciona proc
+    push ax
+    push bx
+    xor bh, bh
+    mov ah, 2
+    int 10h
+    pop bx
+    pop ax
+    ret
+posiciona endp
 
-	cmp byte ptr[bx],2
-	je ganaPc
-	empate:
-	xor al,al
-	mov al,0
-	jmp finPiedra
 
-	pierdePc:
-	xor al,al
-	mov al,1
-	jmp finPiedra
 
-	ganaPc:
-
-	xor al,al
-	mov al,2
-
-finPiedra:
-
-	pop bx
-	pop bp
-	ret 2
-comparoPiedra endp
-
-comparoPapel proc
-	push bp
-	mov bp,sp
-	push bx
-	mov bx, ss:[bp+4]; entra la eleccion del usuario
-
-	cmp byte ptr[bx], al 	;0 piedra, 1 papel, 2 tijera
-	je empatep		
-
-	cmp byte ptr[bx], 2
-	je pierdePcp
-
-	cmp byte ptr[bx],0
-	je ganaPcp
-
-	empatep:
-	xor al,al
-	mov al,0
-	jmp finPapel
-
-	pierdePcp:
-	xor al,al
-	mov al,1
-	jmp finPapel
-
-	ganaPcp:
-
-	xor al,al
-	mov al,2
-
-finPapel:
-
-	pop bx
-	pop bp
-	ret 2
-
-comparoPapel endp
-
-comparoTijera proc
-	push bp
-	mov bp,sp
-	push bx
-	mov bx, ss:[bp+4]; entra la eleccion del usuario
-
-	cmp byte ptr[bx], al 	;0 piedra, 1 papel, 2 tijera
-	je empatet		
-
-	cmp byte ptr[bx], 0
-	je pierdePct
-
-	cmp byte ptr[bx],1
-	je ganaPct
-
-	empatet:
-	xor al,al
-	mov al,0
-	jmp finTijera
-
-	pierdePct:
-	xor al,al
-	mov al,1
-	jmp finTijera
-
-	ganaPct:
-
-	xor al,al
-	mov al,2
-
-finTijera:
-
-	pop bx
-	pop bp
-	ret 2
-
-comparoTijera endp
 
 saltito proc
     push ax             
@@ -151,6 +64,119 @@ saltito proc
     pop ax
     ret                 
 saltito endp
+
+comparoPiedra proc
+        push bp
+        mov bp,sp
+        push bx
+        mov bx, ss:[bp+4]; entra la eleccion del usuario
+
+        cmp byte ptr[bx], al
+        je empate               
+                                                                ;0 piedra, 1 papel, 2 tijera
+        cmp byte ptr[bx], 1
+        je pierdePc
+
+        cmp byte ptr[bx],2
+        je ganaPc
+        empate:
+        xor al,al
+        mov al,0
+        jmp finPiedra
+
+        pierdePc:
+        xor al,al
+        mov al,1
+        jmp finPiedra
+
+        ganaPc:
+
+        xor al,al
+        mov al,2
+
+finPiedra:
+
+        pop bx
+        pop bp
+        ret 2
+comparoPiedra endp
+
+comparoPapel proc
+        push bp
+        mov bp,sp
+        push bx
+        mov bx, ss:[bp+4]; entra la eleccion del usuario
+
+        cmp byte ptr[bx], al    ;0 piedra, 1 papel, 2 tijera
+        je empatep              
+
+        cmp byte ptr[bx], 2
+        je pierdePcp
+
+        cmp byte ptr[bx],0
+        je ganaPcp
+
+        empatep:
+        xor al,al
+        mov al,0
+        jmp finPapel
+
+        pierdePcp:
+        xor al,al
+        mov al,1
+        jmp finPapel
+
+        ganaPcp:
+
+        xor al,al
+        mov al,2
+
+finPapel:
+
+        pop bx
+        pop bp
+        ret 2
+
+comparoPapel endp
+
+comparoTijera proc
+        push bp
+        mov bp,sp
+        push bx
+        mov bx, ss:[bp+4]; entra la eleccion del usuario
+
+        cmp byte ptr[bx], al    ;0 piedra, 1 papel, 2 tijera
+        je empatet              
+
+        cmp byte ptr[bx], 0
+        je pierdePct
+
+        cmp byte ptr[bx],1
+        je ganaPct
+
+        empatet:
+        xor al,al
+        mov al,0
+        jmp finTijera
+
+        pierdePct:
+        xor al,al
+        mov al,1
+        jmp finTijera
+
+        ganaPct:
+
+        xor al,al
+        mov al,2
+
+finTijera:
+
+        pop bx
+        pop bp
+        ret 2
+
+comparoTijera endp
+
 
 random proc
     push cx
@@ -174,192 +200,194 @@ random endp
 
 cuentoLetras proc
 ;SOLO CUENTA LETRAS
-	push bp
-	mov bp,sp
-	push bx
-	push si
-	mov bx, ss:[bp+6]; offset de texto
-	mov si, ss:[bp+4]; aca cuento cada vez que sea una letra
-comparoMay:		
-	cmp byte ptr [bx], 24h
-	je finComparamay
+        push bp
+        mov bp,sp
+        push bx
+        push si
+        mov bx, ss:[bp+6]; offset de texto
+        mov si, ss:[bp+4]; aca cuento cada vez que sea una letra
+comparoMay:             
+        cmp byte ptr [bx], 24h
+        je finComparamay
 
-	cmp byte ptr [bx], 41h
-	jb  noEsletra1
+        cmp byte ptr [bx], 41h
+        jb  noEsletra1
 
-	cmp byte ptr [bx], 5Ah
-	jbe esLetra1	
+        cmp byte ptr [bx], 5Ah
+        jbe esLetra1    
 
-	cmp byte ptr [bx], 61h
-	jb  noEsletra1
+        cmp byte ptr [bx], 61h
+        jb  noEsletra1
 
-	cmp byte ptr [bx], 7Ah
-	jbe esLetra1
+        cmp byte ptr [bx], 7Ah
+        jbe esLetra1
 noEsletra1:
-	inc bx
-	jmp comparoMay
+        inc bx
+        jmp comparoMay
 esLetra1:
-	inc byte ptr [si]
-	inc bx
-	jmp comparoMay	
+        inc byte ptr [si]
+        inc bx
+        jmp comparoMay  
 finComparamay:
-	pop si
-	pop bx			
-	pop bp
+        pop si
+        pop bx                  
+        pop bp
 
-	ret 4
+        ret 4
 
 
 cuentoLetras endp
 
 cuentaIndividual proc
 ;Cuenta individualmente cada caracter para poder mostrar cuantas coincidencias hay
-			;lea bx,texto			;ss:[bp+8]
-			;push bx
+                        ;lea bx,texto                   ;ss:[bp+8]
+                        ;push bx
 
-			;lea bx,caracteres[si]   ;ss:[bp+6] 
-			;push bx
+                        ;lea bx,caracteres[si]   ;ss:[bp+6] 
+                        ;push bx
 
-			;lea bx,contador			;ss:[bp+4]
-			;push bx
+                        ;lea bx,contador                        ;ss:[bp+4]
+                        ;push bx
 
-			;call cuentaIndividual
-	push bp
-	mov bp,sp
+                        ;call cuentaIndividual
+        push bp
+        mov bp,sp
 
-	push bx
-	push si
-	push di
+        push bx
+        push si
+        push di
 
-	mov bx,ss:[bp+8] ; texto
-	mov si,ss:[bp+6] ; direccion caracter
-	mov di,ss:[bp+4] ; contador
+        mov bx,ss:[bp+8] ; texto
+        mov si,ss:[bp+6] ; direccion caracter
+        mov di,ss:[bp+4] ; contador
 
 recorrer:
-	cmp byte ptr [bx],24h
-	je fin
+        cmp byte ptr [bx],24h
+        je fin
 
-	mov dl,byte ptr[si]
-	cmp byte ptr[bx],dl
-	jne seguir
+        mov dl,byte ptr[si]
+        cmp byte ptr[bx],dl
+        jne seguir
 
-	inc byte ptr [di]
+        inc byte ptr [di]
 
 seguir:
-	inc bx
-	jmp recorrer
+        inc bx
+        jmp recorrer
 
-	fin:
-	pop di
-	pop si
-	pop bx
-	pop bp
-	ret 6
+        fin:
+        pop di
+        pop si
+        pop bx
+        pop bp
+        ret 6
 
 cuentaIndividual endp
 
+
+
 limpiaAscii proc
 
-	;limpio limpio ese ascii
-	push bp
-	mov bp,sp
-	push bx
+        ;limpio limpio ese ascii
+        push bp
+        mov bp,sp
+        push bx
 
-	mov bx, ss: [bp+4]	
-	mov byte ptr [bx], '0'
-	mov byte ptr [bx+1], '0'
-	mov byte ptr [bx+2], '0'
+        mov bx, ss: [bp+4]      
+        mov byte ptr [bx], '0'
+        mov byte ptr [bx+1], '0'
+        mov byte ptr [bx+2], '0'
 
-	pop bx
-	pop bp
+        pop bx
+        pop bp
 
-	ret 2
+        ret 2
 
 
 limpiaAscii endp
 
 limpiaVar proc
-	;la variable vuelve limpita
-	push bp
-	mov bp,sp
-	push bx
+        ;la variable vuelve limpita
+        push bp
+        mov bp,sp
+        push bx
 
-	mov bx, ss: [bp+4]	
-	mov byte ptr [bx],0
+        mov bx, ss: [bp+4]      
+        mov byte ptr [bx],0
 
 
-	pop bx
-	pop bp
-	ret 2
+        pop bx
+        pop bp
+        ret 2
 limpiaVar endp
 
 
 carga proc
 ;cargo un texto en bx
-	push bp
-	mov bp,sp
-	push ax
-	push bx
-	mov bx, ss:[bp+4]		
-	cargartexto:
-	mov ah,1
-	int 21h
-	cmp al, 0dh
-	je finCarga
-	mov byte ptr[bx], al
-	inc bx
-jmp cargartexto	
+        push bp
+        mov bp,sp
+        push ax
+        push bx
+        mov bx, ss:[bp+4]               
+        cargartexto:
+        mov ah,1
+        int 21h
+        cmp al, 0dh
+        je finCarga
+        mov byte ptr[bx], al
+        inc bx
+jmp cargartexto 
 finCarga:
-	mov byte ptr[bx],24h
-	pop bx
-	pop ax
-	pop bp
-	ret 2		
+        mov byte ptr[bx],24h
+        pop bx
+        pop ax
+        pop bp
+        ret 2           
 carga endp
 soloLetras proc
 ;Ignora caracteres especiales solo admite letras
-	push bp
-	mov bp,sp
-	push bx
-	push ax
-	push si
-	xor al,al
-	mov bx, ss:[bp+6]	;pongo en bx el offset de un texto
-	mov si, ss:[bp+4]	;lo mismo pero en si
+        push bp
+        mov bp,sp
+        push bx
+        push ax
+        push si
+        xor al,al
+        mov bx, ss:[bp+6]       ;pongo en bx el offset de un texto
+        mov si, ss:[bp+4]       ;lo mismo pero en si
 busco:
-	cmp byte ptr[bx],24h
-	je  finBusco
+        cmp byte ptr[bx],24h
+        je  finBusco
 
-	cmp byte ptr[bx], 41h
-	jb noEsletra
+        cmp byte ptr[bx], 41h
+        jb noEsletra
 
-	cmp byte ptr[bx], 5Ah
-	jbe esLetra
+        cmp byte ptr[bx], 5Ah
+        jbe esLetra
 
-	cmp byte ptr[bx], 61h
-	jb  noEsletra
+        cmp byte ptr[bx], 61h
+        jb  noEsletra
 
-	cmp byte ptr[bx], 7Ah
-	jbe esLetra
+        cmp byte ptr[bx], 7Ah
+        jbe esLetra
 noEsletra:
-	inc bx
+        inc bx
 jmp busco
 
 esLetra:
-	mov al,byte ptr[bx]
-	mov byte ptr[si],al 
-	inc si
-	inc bx
+        mov al,byte ptr[bx]
+        mov byte ptr[si],al 
+        inc si
+        inc bx
 jmp busco
 
 
 finBusco:
-	mov byte ptr[si],24h
-	pop si
-	pop ax
-	pop bx
-	pop bp
-	ret 4
+        mov byte ptr[si],24h
+        pop si
+        pop ax
+        pop bx
+        pop bp
+        ret 4
 soloLetras endp
 
 public num2bin
@@ -369,60 +397,58 @@ num2bin proc
 ;   ss:[bp+6] Offset de la variable donde se guardara el binario
 ;   ss:[bp+4] contador
 
-			;lea bx, nroBin
-			;push bx
+                        ;lea bx, nroBin
+                        ;push bx
 
-			;mov bl, byte ptr [contadorBin]
-			;xor bh,bh
-			;push bx
+                        ;mov bl, byte ptr [contadorBin]
+                        ;xor bh,bh
+                        ;push bx
 
-			;call num2bin
-	push bp
-	mov bp, sp
-	push ax
-	push bx
-	push cx
+                        ;call num2bin
+        push bp
+        mov bp, sp
+        push ax
+        push bx
+        push cx
 
-	mov bx, ss:[bp+6]   ; Offset destino para el texto binario
-	mov ax, ss:[bp+4]   ; Valor del contador a convertir
-	mov cx, 8           ; Cambiar a 16 si se trabaja con contadores de 16 bits
+        mov bx, ss:[bp+6]   ; Offset destino para el texto binario
+        mov ax, ss:[bp+4]   ; Valor del contador a convertir
+        mov cx, 8           ; Cambiar a 16 si se trabaja con contadores de 16 bits
 
 convertir_loop:
-	shl al, 1           
-	jc es_uno
-	mov byte ptr [bx], '0'
-	jmp sig_bit
+        shl al, 1           
+        jc es_uno
+        mov byte ptr [bx], '0'
+        jmp sig_bit
 
 es_uno:
-	mov byte ptr [bx], '1'
+        mov byte ptr [bx], '1'
 
 sig_bit:
-	inc bx
-	loop convertir_loop
+        inc bx
+        loop convertir_loop
 
-	mov byte ptr [bx], 24h
+        mov byte ptr [bx], 24h
 
-	pop cx
-	pop bx
-	pop ax
-	pop bp
-	ret 4
+        pop cx
+        pop bx
+        pop ax
+        pop bp
+        ret 4
 num2bin endp
 
-imprimir proc	
-	push bp
-	mov bp,sp
-	push dx
-	push ax
+imprimir proc   
+        push bp
+        mov bp,sp
+        push bx
 
-	mov dx, ss:[bp+4]
-	mov ah,9
-	int 21h
+        mov dx, ss:[bp+4]
+        mov ah,9
+        int 21h
 
-	pop ax
-	pop dx
-	pop bp
-	ret 2
+        pop bx
+        pop bp
+        ret 2
 imprimir endp
 
 cuentaCaracteres proc
@@ -435,7 +461,7 @@ cuentaCaracteres proc
     push di
 
     mov bx, ss:[bp+8]   ; Rescato Texto
-    mov si, ss:[bp+6]	; lista
+    mov si, ss:[bp+6]   ; lista
     mov di, ss:[bp+4]   ; Rescato puntero al Contador
 
 comparo:
@@ -449,17 +475,17 @@ comparo:
     jne continua
     inc byte ptr[di]
     inc bx
-    mov si, ss:[bp+6]	; recupero lista cuando hay coincidencia 
+    mov si, ss:[bp+6]   ; recupero lista cuando hay coincidencia 
     jmp comparo
 
 aumento:
-	inc bx
-	mov si, ss:[bp+6]	; recupero lista cuando pegue la vuelta
-	jmp comparo
+        inc bx
+        mov si, ss:[bp+6]       ; recupero lista cuando pegue la vuelta
+        jmp comparo
 
 continua:
-	inc si
-	jmp comparo
+        inc si
+        jmp comparo
 
 finCuenta:
 
@@ -471,64 +497,64 @@ finCuenta:
 cuentaCaracteres endp
 
 compara proc
-	;RECIBE EN DL UN CARACTER y lo COMPARA CON UNA VARIABLE QUE VIENE CON EL OFFSET EN [SI] FINALIZADO CON 24h
-	;DEVUELVE EN AL, 1 SI ESE CARACTER SE ENCUENTRA EN LA LISTA QUE VIENE EN [SI]
-	push si
-	xor al, al 
+        ;RECIBE EN DL UN CARACTER y lo COMPARA CON UNA VARIABLE QUE VIENE CON EL OFFSET EN [SI] FINALIZADO CON 24h
+        ;DEVUELVE EN AL, 1 SI ESE CARACTER SE ENCUENTRA EN LA LISTA QUE VIENE EN [SI]
+        push si
+        xor al, al 
 procesoCompara:
-	cmp byte ptr [si],24h
-	je finSinCompara
-	cmp dl, byte ptr [si]
-	je finCompara
-	inc si 
+        cmp byte ptr [si],24h
+        je finSinCompara
+        cmp dl, byte ptr [si]
+        je finCompara
+        inc si 
 jmp procesoCompara
 
 finCompara:
-	mov al,1
+        mov al,1
 finSinCompara:
-	pop si
-	ret
+        pop si
+        ret
 compara endp
 
 incremento proc
 ; simplemente suma 1 en un offset de bx
-	push bp
-	mov bp,sp
-	push bx
-	mov bx, ss:[bp+4]
+        push bp
+        mov bp,sp
+        push bx
+        mov bx, ss:[bp+4]
 
-	inc byte ptr[bx]
+        inc byte ptr[bx]
 
-	pop bx
-	pop bp
-	ret 2
+        pop bx
+        pop bp
+        ret 2
 incremento endp
 
 r2a proc  ;recibe en bx el offset de una variable de 3 bytes, y el numero a convertir por dl no mayor a 255
-       		;lea bx,nroAscii
-			;mov dl, contador
-			;call r2a 
+                ;lea bx,nroAscii
+                        ;mov dl, contador
+                        ;call r2a 
 
 
         push ax
         push dx
 
-	add bx,2
-	xor ax,ax
-	mov al, dl
-	mov dl, 10
-	div dl
-	add [bx],ah
-
-	xor ah,ah
-	dec bx
+        add bx,2
+        xor ax,ax
+        mov al, dl
+        mov dl, 10
         div dl
-	add [bx],ah
+        add [bx],ah
 
-	xor ah,ah
-	dec bx
+        xor ah,ah
+        dec bx
         div dl
-	add [bx],ah
+        add [bx],ah
+
+        xor ah,ah
+        dec bx
+        div dl
+        add [bx],ah
 
         pop dx
         pop ax
@@ -537,40 +563,39 @@ r2a proc  ;recibe en bx el offset de una variable de 3 bytes, y el numero a conv
 r2a endp
 
 cambio proc
-	;recibo texto por bx a modificar las letras a por las x
+        ;recibo texto por bx a modificar las letras a por las x
 
-	push bp
-	mov bp,sp
+        push bp
+        mov bp,sp
 
-	push bx
-	push si
-	push ax
+        push bx
+        push si
+        push ax
 
-	mov bx, ss:[bp+6]
-	mov si, ss:[bp+4]
-	xor al,al
+        mov bx, ss:[bp+6]
+        mov si, ss:[bp+4]
+        xor al,al
 comparaciona:
-	cmp byte ptr[bx],24h
-	je fincambia
-	cmp byte ptr[bx],"a"
-	je  cambiox
-	mov al,byte ptr[bx]
-	mov byte ptr[si],al
-	inc si
-	inc bx
-jmp comparaciona	
+        cmp byte ptr[bx],24h
+        je fincambia
+        cmp byte ptr[bx],"a"
+        je  cambiox
+        mov al,byte ptr[bx]
+        mov byte ptr[si],al
+        inc si
+        inc bx
+jmp comparaciona        
 cambiox:
-	mov byte ptr[si],"x"
-	inc bx
-	inc si
-	jmp comparaciona
+        mov byte ptr[si],"x"
+        inc bx
+        inc si
+        jmp comparaciona
 fincambia:
-	pop ax	
-	pop si
-	pop bx
-	pop bp
-	ret 4
+        pop ax  
+        pop si
+        pop bx
+        pop bp
+        ret 4
 
 cambio endp
 end
-
