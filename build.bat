@@ -4,4 +4,4 @@ tlink /t 81
 81
 tasm tpf
 tasm tpflib
-tlink /t tpf tpflib
+tlink tpf tpflib
