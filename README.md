@@ -4,13 +4,13 @@ Proyecto final de la materia SPD - UNSAM.
 
 Juego de piedra, papel o tijera en ensamblador 8086 para DOS/DOSBox.
 
-> Estado: en desarrollo
+> Estado: finalizado
 
 ## Estructura
 
-- `ppt.asm`: programa principal (`.model small`, genera `ppt.exe`)
-- `pptlib.asm`: librería de rutinas, se enlaza con `ppt`
-- `mint.asm`: interrupción propia residente (`.model tiny`, genera `mint.com`)
+- `tpf.asm`: programa principal (`.model small`, genera `tpf.exe`)
+- `tpflib.asm`: librería de rutinas, se enlaza con `tpf`
+- `81.asm`: interrupción propia residente (`.model tiny`, genera `81.com`)
 - `build.bat`: compila todo
 
 ## Compilar
@@ -22,22 +22,22 @@ build
 o a mano:
 
 ```
-tasm mint.asm
-tlink /t mint.obj
+tasm 81.asm
+tlink /t 81.obj
 
-tasm ppt.asm
-tasm pptlib.asm
-tlink ppt.obj pptlib.obj
+tasm tpf.asm
+tasm tpflib.asm
+tlink tpf.obj tpflib.obj
 ```
 
 ## Ejecutar
 
 ```
-mint.com
-ppt.exe
+81.com
+tpf.exe
 ```
 
-`mint.com` se ejecuta una sola vez por sesión de DOSBox.
+`81` se ejecuta una sola vez por sesión de DOSBox.
 
 ## Autores
 
