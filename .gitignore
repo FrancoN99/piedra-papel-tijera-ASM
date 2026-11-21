@@ -5,6 +5,6 @@
 !.gitignore
 !README.md
 !build.bat
-!ppt.asm
-!pptlib.asm
-!mint.asm
+!tpf.asm
+!tpflib.asm
+!81.asm
